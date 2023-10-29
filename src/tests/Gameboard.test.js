@@ -3,7 +3,7 @@ import Ship from '../js/modules/Ship';
 
 let gameboard;
 
-beforeAll(() => {
+beforeEach(() => {
   gameboard = new GameBoard();
 });
 
@@ -29,6 +29,19 @@ test('Places ship on the board horizontally', () => {
   expect(gameboard.grid[1][3].containsShip).toBeNull(); // Ensures ship is not placed vertically
 });
 
-test('Places ship on the board vertically', () => {});
+test('Places ship on the board vertically', () => {
+  expect(gameboard.grid[0][3].containsShip).toBeNull();
+  let destroyer = new Ship('destroyer', 5, true);
+  gameboard.placeShip(destroyer, 0, 3);
+  expect(gameboard.grid[0][3].containsShip).toBe(destroyer);
+  expect(gameboard.grid[1][3].containsShip).toBe(destroyer);
+  expect(gameboard.grid[2][3].containsShip).toBe(destroyer);
+  expect(gameboard.grid[3][3].containsShip).toBe(destroyer);
+  expect(gameboard.grid[4][3].containsShip).toBe(destroyer);
+
+  expect(gameboard.grid[5][3].containsShip).toBeNull(); // Ensures only the length of the ship is placed
+  expect(gameboard.grid[0][2].containsShip).toBeNull(); // Ensures grid objects in gameboard.grid[x] are unique
+  expect(gameboard.grid[0][4].containsShip).toBeNull(); // Ensures ship is not placed horizontally
+});
 
 test('Places ship in an invalid spot on the board', () => {});
