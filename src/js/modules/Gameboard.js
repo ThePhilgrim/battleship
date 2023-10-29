@@ -1,6 +1,6 @@
 export default class GameBoard {
   constructor() {
-    this.grid = [...Array(10)].map((e) => Array(10).fill(new boardSquare()));
+    this.grid = Array.from({ length: 10 }, (e) => Array.from({ length: 10 }, (e) => new boardSquare()));
   }
 
   receiveHit(x, y) {
