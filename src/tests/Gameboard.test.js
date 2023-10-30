@@ -80,4 +80,47 @@ test('Places ship on the board vertically', () => {
   expect(gameboard.grid[8][7].containsShip).toBe(submarine);
 });
 
-test('Places ship in an invalid spot on the board', () => {});
+test('Places horizontal ship out of bounds on the board', () => {
+  // Check if placed too far right
+  expect(gameboard.grid[0][7].containsShip).toBeNull();
+  let carrier = new Ship('carrier', 5, false);
+  gameboard.placeShip(carrier, 0, 7);
+  expect(gameboard.grid[0][7].containsShip).toBeNull();
+  expect(gameboard.grid[0][8].containsShip).toBeNull();
+  expect(gameboard.grid[0][9].containsShip).toBeNull();
+
+  // Check if placed too far left
+  gameboard.placeShip(carrier, 0, -1);
+  expect(gameboard.grid[0][0].containsShip).toBeNull();
+});
+
+test('Places vertical ship out of bounds on the board', () => {
+  // Check if placed too far down
+  expect(gameboard.grid[7][0].containsShip).toBeNull();
+  let carrier = new Ship('carrier', 5, true);
+  gameboard.placeShip(carrier, 0, 7);
+  expect(gameboard.grid[7][0].containsShip).toBeNull();
+  expect(gameboard.grid[8][0].containsShip).toBeNull();
+  expect(gameboard.grid[9][0].containsShip).toBeNull();
+
+  // Check if placed too far up
+  gameboard.placeShip(carrier, -1, 0);
+  expect(gameboard.grid[0][0].containsShip).toBeNull();
+});
+
+test('Places overlapping ships on the board', () => {
+  let carrier = new Ship('carrier', 5, false);
+  gameboard.placeShip(carrier, 4, 3);
+
+  // Place horizontal overlapping ship
+  let horizontalSubmarine = new Ship('submarine', 3, false);
+  gameboard.placeShip(horizontalSubmarine, 4, 1);
+  expect(gameboard.grid[4][1].containsShip).toBeNull();
+  expect(gameboard.grid[4][3].containsShip).toBe(carrier);
+
+  // Place vertical overlapping ship
+  let verticalSubmarine = new Ship('submarine', 3, true);
+  gameboard.placeShip(verticalSubmarine, 4, 3);
+  expect(gameboard.grid[5][3].containsShip).toBeNull();
+  expect(gameboard.grid[4][3].containsShip).toBe(carrier);
+});
