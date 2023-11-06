@@ -5,7 +5,7 @@ export default class GameBoard {
   }
 
   receiveAttack(y, x) {
-    attackedSquare = this.grid[y][x];
+    const attackedSquare = this.grid[y][x];
 
     if (attackedSquare.hasReceivedHit) {
       return;
