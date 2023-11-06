@@ -30,9 +30,6 @@ class AI extends Player {
 
     this.attackedSquares.push(attackCoordinates);
     return attackCoordinates;
-    // Get random coordinates
-    // While coordinates in attackedSquares -> Get new random coordinates
-    // return coordinates
   }
 
   getRandomCoordinates(max) {
@@ -41,12 +38,5 @@ class AI extends Player {
 }
 
 class Human extends Player {}
-
-// attackRandomly(opponent) {
-//     let x = getRandomCoordinate(10);
-//     let y = getRandomCoordinate(10);
-
-//     while (opponent.gameboard.grid[y][x].hasReceivedHit) {}
-//   }
 
 export { Human, AI };
