@@ -41,6 +41,19 @@ class AI extends Player {
   }
 }
 
-class Human extends Player {}
+class Human extends Player {
+  attack(clickedCoordinates) {
+    if (
+      this.attackedSquares.some(
+        (coordinate) => coordinate.x === clickedCoordinates.x && coordinate.y === clickedCoordinates.y
+      )
+    ) {
+      return;
+    }
+
+    this.attackedSquares.push(clickedCoordinates);
+    return clickedCoordinates;
+  }
+}
 
 export { Human, AI };
