@@ -14,6 +14,10 @@ class Player {
   attack() {
     throw new Error("The 'attack' method must be implemented in the subclass.");
   }
+
+  placeShip() {
+    throw new Error("The 'placeShip' method must be implemented in the subclass.");
+  }
 }
 
 class AI extends Player {
