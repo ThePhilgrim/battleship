@@ -37,7 +37,7 @@ export default class GameBoard {
 
   placementIsValid(ship, { y, x }) {
     const gridRow = this.grid[y];
-    const directionalPosition = ship.isVertical ? y : x;
+    const directionalPosition = ship.isVertical ? y : x; // To determine if outOfBounds needs to be checked horizontally or vertically
     const directionalMax = ship.isVertical ? this.grid.length : gridRow.length;
     const squaresToPlaceShip = ship.isVertical
       ? this.grid.slice(y, y + ship.length).map((boardRow) => boardRow[x])
