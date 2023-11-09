@@ -8,6 +8,13 @@ class Player {
     }
 
     this.gameboard = new GameBoard();
+    this.ships = [
+      new Ship('Carrier', 5),
+      new Ship('Battleship', 4),
+      new Ship('Cruiser', 3),
+      new Ship('Submarine', 3),
+      new Ship('Destroyer', 2),
+    ];
     this.attackedSquares = new Array();
   }
 
@@ -36,6 +43,17 @@ class AI extends Player {
     return attackCoordinates;
   }
 
+  placeShip(ship) {
+    const isVertical = Math.random() < 0.5;
+    const startingCoordinate = this.getRandomCoordinates();
+
+    while (!this.gameboard.placementIsValid(ship, startingCoordinate)) {
+      const startingCoordinate = this.getRandomCoordinates();
+    }
+
+    this.gameboard.receiveShip(ship, startingCoordinate);
+  }
+
   getRandomCoordinates(max) {
     return { x: Math.floor(Math.random() * max), y: Math.floor(Math.random() * max) };
   }
@@ -53,6 +71,14 @@ class Human extends Player {
 
     this.attackedSquares.push(clickedCoordinates);
     return clickedCoordinates;
+  }
+
+  placeShip(ship, clickedCoordinates) {
+    if (!this.gameboard.placementIsValid(ship, clickedCoordinates)) {
+      return;
+    }
+
+    this.gameboard.receiveShip(ship, clickedCoordinates);
   }
 }
 

@@ -18,11 +18,7 @@ export default class GameBoard {
     return this.ships.every((ship) => ship.isSunk());
   }
 
-  placeShip(ship, y, x) {
-    if (!this.placementIsValid(ship, y, x)) {
-      return;
-    }
-
+  receiveShip(ship, { y, x }) {
     if (ship.isVertical) {
       for (let i = y; i < y + ship.length; i += 1) {
         this.grid[i][x].containsShip = ship;
@@ -39,7 +35,7 @@ export default class GameBoard {
     this.ships.push(ship);
   }
 
-  placementIsValid(ship, y, x) {
+  placementIsValid(ship, { y, x }) {
     const gridRow = this.grid[y];
     const directionalPosition = ship.isVertical ? y : x;
     const directionalMax = ship.isVertical ? this.grid.length : gridRow.length;
