@@ -26,10 +26,13 @@ describe('Testing the AI player', () => {
 
   test('Place ships', () => {
     const shipsToPlace = [...aiPlayer.ships];
+    let shipsPlaced = 0;
 
     while (shipsToPlace.length > 0) {
       let ship = shipsToPlace.shift();
       aiPlayer.placeShip(ship);
+      shipsPlaced += 1;
+      expect(aiPlayer.gameboard.ships.length).toBe(shipsPlaced);
     }
 
     expect(aiPlayer.gameboard.ships.length).toBe(5);
