@@ -1,5 +1,5 @@
 import GameBoard from './Gameboard';
-import { getRandomCoordinates } from '../utils/helpers';
+import Ship from './Ship';
 
 class Player {
   constructor() {
@@ -44,18 +44,18 @@ class AI extends Player {
   }
 
   placeShip(ship) {
-    const isVertical = Math.random() < 0.5;
-    const startingCoordinate = this.getRandomCoordinates();
+    ship.isVertical = Math.random() < 0.5;
+    let startingCoordinate = this.getRandomCoordinates(10);
 
     while (!this.gameboard.placementIsValid(ship, startingCoordinate)) {
-      const startingCoordinate = this.getRandomCoordinates();
+      startingCoordinate = this.getRandomCoordinates(10);
     }
 
     this.gameboard.receiveShip(ship, startingCoordinate);
   }
 
   getRandomCoordinates(max) {
-    return { x: Math.floor(Math.random() * max), y: Math.floor(Math.random() * max) };
+    return { y: Math.floor(Math.random() * max), x: Math.floor(Math.random() * max) };
   }
 }
 
