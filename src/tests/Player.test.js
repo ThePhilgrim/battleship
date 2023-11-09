@@ -38,3 +38,26 @@ describe('Testing the AI player', () => {
     expect(aiPlayer.gameboard.ships.length).toBe(5);
   });
 });
+
+describe('Testing the Human player', () => {
+  beforeAll(() => {
+    humanPlayer = new Human();
+  });
+
+  test('Place ship', () => {
+    const shipsToPlace = [...humanPlayer.ships];
+    expect(humanPlayer.gameboard.ships.length).toBe(0);
+
+    humanPlayer.placeShip(shipsToPlace.shift(), { y: 0, x: 0 });
+    expect(humanPlayer.gameboard.ships.length).toBe(1);
+
+    humanPlayer.placeShip(shipsToPlace.shift(), { y: 0, x: 0 });
+    expect(humanPlayer.gameboard.ships.length).toBe(1);
+
+    humanPlayer.placeShip(shipsToPlace.shift(), { y: 4, x: 2 });
+    expect(humanPlayer.gameboard.ships.length).toBe(2);
+
+    humanPlayer.placeShip(shipsToPlace.shift(), { y: 4, x: 0 });
+    expect(humanPlayer.gameboard.ships.length).toBe(2);
+  });
+});
