@@ -66,10 +66,11 @@ export default class GameBoard {
       ? this.grid.slice(y, y + ship.size).map((boardRow) => boardRow[x])
       : gridRow.slice(x, x + ship.size);
 
-    const overlaps = squaresToPlaceShip.some((square) => square.containsShip);
-    const outOfBounds = directionalPosition < 0 || directionalPosition + ship.length > directionalMax;
+    const surroundedByWater = true; // TODO
+    const overlaps = squaresToPlaceShip.some((square) => square.containsShip); // TODO Remove after implementing surroundedByWater
+    const outOfBounds = directionalPosition < 0 || directionalPosition + ship.size > directionalMax;
 
-    return !overlaps && !outOfBounds;
+    return !overlaps && !outOfBounds && surroundedByWater;
   }
 }
 
