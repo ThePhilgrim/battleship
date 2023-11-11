@@ -73,6 +73,7 @@ class AI extends Player {
 }
 
 class Human extends Player {
+  coordinatesReceivedCallback = null;
 
   rememberAttack(attackedCoordinates) {
     this.attackedSquares.push(attackedCoordinates);
