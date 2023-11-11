@@ -35,6 +35,9 @@ class Player {
   rememberAttack() {
     throw new Error("The 'rememberAttack' method must be implemented in the subclass.");
   }
+
+  receiveAttack({ y, x }) {
+    throw new Error("The 'receiveAttack' method must be implemented in the subclass.");
   }
 
   placeShip() {
@@ -57,6 +60,11 @@ class AI extends Player {
   rememberAttack(attackedCoordinates) {
     this.attackedSquares.push(attackedCoordinates);
   }
+
+  receiveAttack({ y, x }) {
+    const square = this.gameboard.grid[y][x];
+    square.hasReceivedHit = true;
+    square.containsShip?.hit();
   }
 
   placeShip(ship) {
@@ -95,6 +103,8 @@ class Human extends Player {
   rememberAttack(attackedCoordinates) {
     this.attackedSquares.push(attackedCoordinates);
   }
+
+  receiveAttack() {}
 
   placeShip(ship, clickedCoordinates) {
     if (!this.gameboard.placementIsValid(ship, clickedCoordinates)) {
