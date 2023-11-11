@@ -11,10 +11,21 @@ class Player {
     this.ships = [
       new Ship('Carrier', 5),
       new Ship('Battleship', 4),
+      new Ship('Battleship', 4),
+      new Ship('Cruiser', 3),
+      new Ship('Cruiser', 3),
       new Ship('Cruiser', 3),
       new Ship('Submarine', 3),
+      new Ship('Submarine', 3),
+      new Ship('Submarine', 3),
+      new Ship('Submarine', 3),
+      new Ship('Destroyer', 2),
+      new Ship('Destroyer', 2),
+      new Ship('Destroyer', 2),
+      new Ship('Destroyer', 2),
       new Ship('Destroyer', 2),
     ];
+
     this.attackedSquares = new Array();
   }
 
