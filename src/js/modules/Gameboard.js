@@ -4,6 +4,29 @@ export default class GameBoard {
     this.ships = new Array();
   }
 
+  printBoard() {
+    console.group('Board');
+    this.grid.forEach((row) => {
+      const line = row.reduce((previous, current) => {
+        let field;
+
+        if (current.containsShip) {
+          field = current.containsShip.isSunk() ? '[X]' : '[*]';
+        } else if (current.hasReceivedHit) {
+          field = '[+]';
+        } else {
+          field = '[ ]';
+        }
+
+        return previous + field;
+      }, '');
+
+      console.log(line);
+    });
+
+    console.groupEnd();
+  }
+
   receiveAttack(y, x) {
     const attackedSquare = this.grid[y][x];
 
