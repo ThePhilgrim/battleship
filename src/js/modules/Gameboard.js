@@ -43,14 +43,14 @@ export default class GameBoard {
 
   receiveShip(ship, { y, x }) {
     if (ship.isVertical) {
-      for (let i = y; i < y + ship.length; i += 1) {
+      for (let i = y; i < y + ship.size; i += 1) {
         this.grid[i][x].containsShip = ship;
       }
     }
 
     if (!ship.isVertical) {
       const gridRow = this.grid[y];
-      for (let i = x; i < x + ship.length; i += 1) {
+      for (let i = x; i < x + ship.size; i += 1) {
         gridRow[i].containsShip = ship;
       }
     }
@@ -63,8 +63,8 @@ export default class GameBoard {
     const directionalPosition = ship.isVertical ? y : x; // To determine if outOfBounds needs to be checked horizontally or vertically
     const directionalMax = ship.isVertical ? this.grid.length : gridRow.length;
     const squaresToPlaceShip = ship.isVertical
-      ? this.grid.slice(y, y + ship.length).map((boardRow) => boardRow[x])
-      : gridRow.slice(x, x + ship.length);
+      ? this.grid.slice(y, y + ship.size).map((boardRow) => boardRow[x])
+      : gridRow.slice(x, x + ship.size);
 
     const overlaps = squaresToPlaceShip.some((square) => square.containsShip);
     const outOfBounds = directionalPosition < 0 || directionalPosition + ship.length > directionalMax;

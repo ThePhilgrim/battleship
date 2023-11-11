@@ -1,7 +1,7 @@
 export default class Ship {
-  constructor(shipType, length, isVertical = false) {
+  constructor(shipType, size, isVertical = false) {
     this.shipType = shipType;
-    this.length = length;
+    this.size = size;
     this.isVertical = isVertical;
     this.noOfHits = 0;
   }
@@ -11,6 +11,6 @@ export default class Ship {
   }
 
   isSunk() {
-    return this.noOfHits >= this.length;
+    return this.noOfHits >= this.size;
   }
 }
