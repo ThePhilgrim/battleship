@@ -28,8 +28,9 @@ class Player {
     this.attackedSquares = new Array();
   }
 
-  attack() {
-    throw new Error("The 'attack' method must be implemented in the subclass.");
+  rememberAttack() {
+    throw new Error("The 'rememberAttack' method must be implemented in the subclass.");
+  }
   }
 
   placeShip() {
@@ -42,19 +43,10 @@ class Player {
 }
 
 class AI extends Player {
-  attack() {
-    let attackCoordinates = this.getRandomCoordinates(10);
 
-    while (
-      this.attackedSquares.some(
-        (coordinate) => coordinate.x === attackCoordinates.x && coordinate.y === attackCoordinates.y
-      )
-    ) {
-      attackCoordinates = this.getRandomCoordinates(10);
-    }
-
-    this.attackedSquares.push(attackCoordinates);
-    return attackCoordinates;
+  rememberAttack(attackedCoordinates) {
+    this.attackedSquares.push(attackedCoordinates);
+  }
   }
 
   placeShip(ship) {
@@ -81,17 +73,9 @@ class AI extends Player {
 }
 
 class Human extends Player {
-  attack(clickedCoordinates) {
-    if (
-      this.attackedSquares.some(
-        (coordinate) => coordinate.x === clickedCoordinates.x && coordinate.y === clickedCoordinates.y
-      )
-    ) {
-      return;
-    }
 
-    this.attackedSquares.push(clickedCoordinates);
-    return clickedCoordinates;
+  rememberAttack(attackedCoordinates) {
+    this.attackedSquares.push(attackedCoordinates);
   }
 
   placeShip(ship, clickedCoordinates) {
