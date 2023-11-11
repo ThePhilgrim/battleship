@@ -35,6 +35,10 @@ class Player {
   placeShip() {
     throw new Error("The 'placeShip' method must be implemented in the subclass.");
   }
+
+  getCoordinates() {
+    throw new Error("The 'getCoordinates' method must be implemented in the subclass.");
+  }
 }
 
 class AI extends Player {
@@ -55,17 +59,24 @@ class AI extends Player {
 
   placeShip(ship) {
     ship.isVertical = Math.random() < 0.5;
-    let startingCoordinate = this.getRandomCoordinates(10);
+    let startingCoordinate = this.getCoordinates(this.gameboard);
 
     while (!this.gameboard.placementIsValid(ship, startingCoordinate)) {
-      startingCoordinate = this.getRandomCoordinates(10);
+      startingCoordinate = this.getCoordinates(this.gameboard);
     }
 
     this.gameboard.receiveShip(ship, startingCoordinate);
   }
 
-  getRandomCoordinates(max) {
-    return { y: Math.floor(Math.random() * max), x: Math.floor(Math.random() * max) };
+  getCoordinates(gameboard) {
+    let x;
+    let y;
+    do {
+      x = Math.floor(Math.random() * gameboard.grid.length);
+      y = Math.floor(Math.random() * gameboard.grid.length);
+    } while (this.attackedSquares.some((square) => x === square.x && y === square.y));
+
+    return { y, x };
   }
 }
 
@@ -89,6 +100,13 @@ class Human extends Player {
     }
 
     this.gameboard.receiveShip(ship, clickedCoordinates);
+  }
+
+  getCoordinates() {
+    return new Promise((done) => {
+      // Get coordinates
+      coordinatesReceivedCallback = done;
+    });
   }
 }
 
