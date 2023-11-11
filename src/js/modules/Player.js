@@ -28,6 +28,10 @@ class Player {
     this.attackedSquares = new Array();
   }
 
+  placeShips() {
+    throw new Error("The 'startPlacingShips' method must be implemented in the subclass.");
+  }
+
   rememberAttack() {
     throw new Error("The 'rememberAttack' method must be implemented in the subclass.");
   }
@@ -43,6 +47,12 @@ class Player {
 }
 
 class AI extends Player {
+  placeShips() {
+    return new Promise((done) => {
+      this.ships.forEach((ship) => this.placeShip(ship));
+      done();
+    });
+  }
 
   rememberAttack(attackedCoordinates) {
     this.attackedSquares.push(attackedCoordinates);
@@ -74,6 +84,13 @@ class AI extends Player {
 
 class Human extends Player {
   coordinatesReceivedCallback = null;
+
+  placeShips() {
+    return new Promise((done) => {
+      // Place all ships
+      done();
+    });
+  }
 
   rememberAttack(attackedCoordinates) {
     this.attackedSquares.push(attackedCoordinates);
