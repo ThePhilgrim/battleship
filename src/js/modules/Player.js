@@ -1,13 +1,12 @@
-import GameBoard from './Gameboard';
 import Ship from './Ship';
 
 class Player {
-  constructor() {
+  constructor(gameboard) {
     if (new.target === Player) {
       throw new Error('Player cannot be instantiated directly.');
     }
 
-    this.gameboard = new GameBoard();
+    this.gameboard = gameboard;
     this.ships = [
       new Ship('Carrier', 5),
       new Ship('Battleship', 4),
