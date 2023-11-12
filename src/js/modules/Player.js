@@ -64,7 +64,13 @@ class AI extends Player {
   receiveAttack({ y, x }) {
     const square = this.gameboard.grid[y][x];
     square.hasReceivedHit = true;
-    square.containsShip?.hit();
+
+    if (square.containsShip) {
+      square.containsShip.hit();
+      return square.containsShip.isSunk() ? 'SUNK' : 'HIT';
+    }
+
+    return 'MISS';
   }
 
   placeShip(ship) {
