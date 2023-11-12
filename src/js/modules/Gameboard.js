@@ -45,6 +45,7 @@ export default class GameBoard {
     if (ship.isVertical) {
       for (let i = y; i < y + ship.size; i += 1) {
         this.grid[i][x].containsShip = ship;
+        ship.ownCoordinates.push({ y: i, x: x });
       }
     }
 
@@ -52,6 +53,7 @@ export default class GameBoard {
       const gridRow = this.grid[y];
       for (let i = x; i < x + ship.size; i += 1) {
         gridRow[i].containsShip = ship;
+        ship.ownCoordinates.push({ y: y, x: i });
       }
     }
 

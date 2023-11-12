@@ -4,6 +4,7 @@ export default class Ship {
     this.size = size;
     this.isVertical = isVertical;
     this.noOfHits = 0;
+    this.ownCoordinates = new Array();
   }
 
   hit() {
