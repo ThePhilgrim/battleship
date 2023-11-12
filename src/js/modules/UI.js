@@ -1,13 +1,20 @@
 export default class UserInterface {
   player1Container = document.querySelector('#player1');
   player2Container = document.querySelector('#player2');
+  player1Tables;
+  player2Tables;
 
   constructor() {
-    this.createPlayerBoards(this.player1Container);
-    this.createPlayerBoards(this.player2Container);
+    this.player1Tables = this.createPlayerBoards(this.player1Container);
+    this.player2Tables = this.createPlayerBoards(this.player2Container);
   }
 
-  updateBoard(player, playerContainer) {}
+  updateSquare(table, { y, x }, classNames) {
+    const selector = `tr:nth-of-type(${y + 1}) td:nth-of-type(${x + 1})`;
+    const square = table.querySelector(selector);
+    console.log('CLASS NAMES: ', classNames);
+    square.classList.add(...classNames);
+  }
 
   createPlayerBoards(playerContainer) {
     function createTable(className) {
@@ -30,5 +37,7 @@ export default class UserInterface {
 
     playerContainer.appendChild(playerTable);
     playerContainer.appendChild(opponentTable);
+
+    return { playerTable, opponentTable };
   }
 }
