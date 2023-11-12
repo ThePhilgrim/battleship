@@ -1,6 +1,6 @@
-import { Human, AI } from './Player';
-import GameBoard from './Gameboard';
-import UserInterface from './UI';
+import { Human, AI } from './Player.js';
+import GameBoard from './Gameboard.js';
+import UserInterface from './UI.js';
 
 export default class Battleships {
   constructor(
