@@ -61,6 +61,7 @@ class AI extends Player {
     this.attackedSquares.push(attackedCoordinates);
   }
 
+  // TODO: Would fit better in the gameboard class
   receiveAttack({ y, x }) {
     const square = this.gameboard.grid[y][x];
     square.hasReceivedHit = true;
