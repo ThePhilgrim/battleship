@@ -51,10 +51,11 @@ class Player {
 
 class AI extends Player {
   placeShips() {
-    return new Promise((done) => {
-      this.ships.forEach((ship) => this.placeShip(ship));
-      done();
+    const allShipsPlaced = this.ships.map((ship) => {
+      return this.placeShip(ship);
     });
+
+    return Promise.all(allShipsPlaced);
   }
 
   rememberAttack(attackedCoordinates) {
@@ -74,32 +75,40 @@ class AI extends Player {
     return 'MISS';
   }
 
-  placeShip(ship) {
+  async placeShip(ship) {
     ship.isVertical = Math.random() < 0.5;
-    let startingCoordinate = this.getCoordinates(this.gameboard);
-
-    while (!this.gameboard.placementIsValid(ship, startingCoordinate)) {
-      startingCoordinate = this.getCoordinates(this.gameboard);
-    }
+    let promiseAndResolver;
+    let startingCoordinate;
+    do {
+      promiseAndResolver = this.getCoordinates(/* aiDelay */ false);
+      startingCoordinate = await promiseAndResolver.coordinatesPromise;
+    } while (!this.gameboard.placementIsValid(ship, startingCoordinate));
 
     this.gameboard.receiveShip(ship, startingCoordinate);
   }
 
-  getCoordinates(gameboard) {
-    let x;
-    let y;
-    do {
-      x = Math.floor(Math.random() * gameboard.grid.length);
-      y = Math.floor(Math.random() * gameboard.grid.length);
-    } while (this.attackedSquares.some((square) => x === square.x && y === square.y));
+  getCoordinates(aiDelay = true) {
+    const coordinatesResolver = null;
 
-    return { y, x };
+    const coordinatesPromise = new Promise((resolve) => {
+      let x;
+      let y;
+      do {
+        x = Math.floor(Math.random() * this.gameboard.grid.length);
+        y = Math.floor(Math.random() * this.gameboard.grid.length);
+      } while (this.attackedSquares.some((square) => x === square.x && y === square.y));
+
+      const delay = aiDelay ? 0 * (1000 + Math.random() * 2000) : 0;
+
+      setTimeout(() => {
+        resolve({ y, x });
+      }, delay);
+    });
+    return { coordinatesPromise, coordinatesResolver };
   }
 }
 
 class Human extends Player {
-  coordinatesReceivedCallback = null;
-
   placeShips() {
     return new Promise((done) => {
       // Place all ships
@@ -122,10 +131,11 @@ class Human extends Player {
   }
 
   getCoordinates() {
-    return new Promise((done) => {
-      // Get coordinates
-      coordinatesReceivedCallback = done;
+    let coordinatesResolver;
+    const coordinatesPromise = new Promise((resolve) => {
+      coordinatesResolver = resolve;
     });
+    return { coordinatesPromise, coordinatesResolver };
   }
 }
 
