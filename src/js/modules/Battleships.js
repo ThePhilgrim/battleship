@@ -41,9 +41,18 @@ export default class Battleships {
     }
   }
 
+  async takeTurn(attackingPlayer, receivingPlayer) {
+    const promiseAndResolver = attackingPlayer.getCoordinates();
+    this.userInterface.coordinatesResolver = promiseAndResolver.coordinatesResolver;
+    const coordinates = await promiseAndResolver.coordinatesPromise;
+    attackingPlayer.rememberAttack(coordinates);
+    const attackResult = receivingPlayer.receiveAttack(coordinates);
+    const coordinatesToUpdate = this.getCoordinatesArray(attackResult, receivingPlayer, coordinates);
+    return { attackResult, coordinatesToUpdate };
+  }
+
   async startNewGame() {
     const playersInitialized = [this.player1.placeShips(), this.player2.placeShips()];
-
     await Promise.all(playersInitialized);
     let roundNo = 1;
 
@@ -54,19 +63,13 @@ export default class Battleships {
     };
 
     while (!(this.player1.gameboard.allShipsSunk() || this.player2.gameboard.allShipsSunk())) {
-      console.log('Round No: ', roundNo);
-      const player1Coordinates = await this.player1.getCoordinates(this.player1.gameboard);
-      this.player1.rememberAttack(player1Coordinates);
-      const attackResult1 = this.player2.receiveAttack(player1Coordinates);
-      console.log('ATTACK RESULTS: ', attackResult1);
-
-      const coordinatesToUpdate1 = this.getCoordinatesArray(attackResult1, this.player2, player1Coordinates);
+      const turnResult1 = await this.takeTurn(this.player1, this.player2);
 
       this.updateSquares(
         this.userInterface.player1Tables,
         this.userInterface.player2Tables,
-        coordinatesToUpdate1,
-        resultClassNames[attackResult1]
+        turnResult1.coordinatesToUpdate,
+        resultClassNames[turnResult1.attackResult]
       );
 
       if (this.player2.gameboard.allShipsSunk()) {
@@ -74,27 +77,22 @@ export default class Battleships {
         break;
       }
 
-      console.log('player2');
-      const player2Coordinates = await this.player2.getCoordinates(this.player2.gameboard);
-      this.player2.rememberAttack(player2Coordinates);
-      const attackResult2 = this.player1.receiveAttack(player2Coordinates);
-
-      const coordinatesToUpdate2 = this.getCoordinatesArray(attackResult2, this.player1, player2Coordinates);
+      const turnResult2 = await this.takeTurn(this.player2, this.player1);
 
       this.updateSquares(
         this.userInterface.player2Tables,
         this.userInterface.player1Tables,
-        coordinatesToUpdate2,
-        resultClassNames[attackResult2]
+        turnResult2.coordinatesToUpdate,
+        resultClassNames[turnResult2.attackResult]
       );
 
-      if (this.player2.gameboard.allShipsSunk()) {
+      if (this.player1.gameboard.allShipsSunk()) {
         console.log('PLAYER 2 WINS');
         break;
       }
 
       roundNo += 1;
-      await delay();
+      // await delay();
     }
 
     // Print winner
