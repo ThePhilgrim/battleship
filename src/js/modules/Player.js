@@ -110,10 +110,11 @@ class AI extends Player {
 
 class Human extends Player {
   placeShips() {
-    return new Promise((done) => {
-      // Place all ships
-      done();
+    const allShipsPlaced = this.ships.map((ship) => {
+      return this.placeShip(ship);
     });
+
+    return Promise.all(allShipsPlaced);
   }
 
   rememberAttack(attackedCoordinates) {
@@ -122,12 +123,17 @@ class Human extends Player {
 
   receiveAttack() {}
 
-  placeShip(ship, clickedCoordinates) {
+  async placeShip(ship, clickedCoordinates) {
     if (!this.gameboard.placementIsValid(ship, clickedCoordinates)) {
       return;
     }
 
-    this.gameboard.receiveShip(ship, clickedCoordinates);
+    return new Promise((resolve) => {
+      ship.hasBeenPlaced = (clickedCoordinates) => {
+        this.gameboard.receiveShip(ship, clickedCoordinates);
+        resolve();
+      };
+    });
   }
 
   getCoordinates() {
