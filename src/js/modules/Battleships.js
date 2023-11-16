@@ -52,6 +52,8 @@ export default class Battleships {
   }
 
   async startNewGame() {
+    this.userInterface.putShipsInYard(this.player1, this.userInterface.player1Board); // SMELLY
+    this.userInterface.putShipsInYard(this.player2, this.userInterface.player2Board); // EUWW
     const playersInitialized = [this.player1.placeShips(), this.player2.placeShips()];
     await Promise.all(playersInitialized);
     let roundNo = 1;

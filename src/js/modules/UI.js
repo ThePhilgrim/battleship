@@ -44,13 +44,41 @@ export default class UserInterface {
     return table;
   }
 
-  createPlayerBoards(playerContainer) {
+  putShipsInYard(player, board) {
+    board.shipYard.innerHTML = '';
+    player.ships.forEach((ship) => {
+      const shipElement = document.createElement('li');
+      shipElement.classList.add('ship', ship.shipType.toLowerCase());
+      shipElement.dataset.size = ship.size;
+      for (let i = 1; i <= ship.size; i += 1) {
+        const square = document.createElement('div');
+        shipElement.appendChild(square);
+      }
+      board.shipYard.appendChild(shipElement);
+    });
+  }
+
+  createShipYard() {
+    const shipYard = document.createElement('ul');
+    shipYard.classList.add('shipyard');
+    return shipYard;
+  }
+
+  createPlayerBoard(playerContainer) {
     const playerTable = this.createTable('player');
     const opponentTable = this.createTable('opponent');
+    const shipYard = this.createShipYard();
 
     playerContainer.appendChild(playerTable);
     playerContainer.appendChild(opponentTable);
+    playerContainer.appendChild(shipYard);
 
-    return { playerTable, opponentTable };
+    return { playerTable, opponentTable, shipYard };
   }
 }
+
+// For each ship -> Create div w. square x ship.size
+// Allow click on any square -> Drag whole div
+// Remember clicked square
+// querySelector(:hover)
+// Place div accordingly w. clicked square on hovered square
