@@ -1,13 +1,13 @@
 export default class UserInterface {
   player1Container = document.querySelector('#player1');
   player2Container = document.querySelector('#player2');
-  player1Tables;
-  player2Tables;
+  player1Board;
+  player2Board;
   coordinatesResolver = null;
 
   constructor() {
-    this.player1Tables = this.createPlayerBoards(this.player1Container);
-    this.player2Tables = this.createPlayerBoards(this.player2Container);
+    this.player1Board = this.createPlayerBoard(this.player1Container);
+    this.player2Board = this.createPlayerBoard(this.player2Container);
   }
 
   onSquareClick(event) {

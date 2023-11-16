@@ -66,8 +66,8 @@ export default class Battleships {
       const turnResult1 = await this.takeTurn(this.player1, this.player2);
 
       this.updateSquares(
-        this.userInterface.player1Tables,
-        this.userInterface.player2Tables,
+        this.userInterface.player1Board,
+        this.userInterface.player2Board,
         turnResult1.coordinatesToUpdate,
         resultClassNames[turnResult1.attackResult]
       );
@@ -80,8 +80,8 @@ export default class Battleships {
       const turnResult2 = await this.takeTurn(this.player2, this.player1);
 
       this.updateSquares(
-        this.userInterface.player2Tables,
-        this.userInterface.player1Tables,
+        this.userInterface.player2Board,
+        this.userInterface.player1Board,
         turnResult2.coordinatesToUpdate,
         resultClassNames[turnResult2.attackResult]
       );
