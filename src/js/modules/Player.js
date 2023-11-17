@@ -76,10 +76,10 @@ class AI extends Player {
   }
 
   async placeShip(ship) {
-    ship.isVertical = Math.random() < 0.5;
     let promiseAndResolver;
     let startingCoordinate;
     do {
+      ship.isVertical = Math.random() < 0.5;
       promiseAndResolver = this.getCoordinates(/* aiDelay */ false);
       startingCoordinate = await promiseAndResolver.coordinatesPromise;
     } while (!this.gameboard.placementIsValid(ship, startingCoordinate));
@@ -93,7 +93,9 @@ class AI extends Player {
     const coordinatesPromise = new Promise((resolve) => {
       let x;
       let y;
+      let orientation;
       do {
+        // Orientation here?
         x = Math.floor(Math.random() * this.gameboard.grid.length);
         y = Math.floor(Math.random() * this.gameboard.grid.length);
       } while (this.attackedSquares.some((square) => x === square.x && y === square.y));
@@ -123,14 +125,14 @@ class Human extends Player {
 
   receiveAttack() {}
 
-  async placeShip(ship, clickedCoordinates) {
-    if (!this.gameboard.placementIsValid(ship, clickedCoordinates)) {
-      return;
-    }
-
-    return new Promise((resolve) => {
-      ship.hasBeenPlaced = (clickedCoordinates) => {
-        this.gameboard.receiveShip(ship, clickedCoordinates);
+  async placeShip(ship) {
+    // TODO: Not sure why this needs to be async (webpack wont compile without it)
+    return new Promise(async (resolve) => {
+      ship.hasBeenPlaced = async (adjustedCoordinates) => {
+        if (!this.gameboard.placementIsValid(ship, adjustedCoordinates)) {
+          return;
+        }
+        this.gameboard.receiveShip(ship, adjustedCoordinates);
         resolve();
       };
     });
