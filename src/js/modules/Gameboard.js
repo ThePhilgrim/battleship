@@ -1,3 +1,5 @@
+import { DEBUG } from './Battleships.js';
+
 export default class GameBoard {
   constructor() {
     this.grid = Array.from({ length: 10 }, (e) => Array.from({ length: 10 }, (e) => new boardSquare()));
@@ -58,7 +60,7 @@ export default class GameBoard {
     }
 
     this.ships.push(ship);
-    // this.printBoard();
+    if (DEBUG.RECEIVE_SHIP) this.printBoard();
   }
 
   placementIsValid(ship, { y, x }) {

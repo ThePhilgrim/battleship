@@ -126,10 +126,13 @@ class Human extends Player {
   receiveAttack() {}
 
   async placeShip(ship) {
+    console.log( 'placeShip');
     // TODO: Not sure why this needs to be async (webpack wont compile without it)
     return new Promise(async (resolve) => {
       ship.hasBeenPlaced = async (adjustedCoordinates) => {
+        console.log( 'ship.hasBeenPlaced');
         if (!this.gameboard.placementIsValid(ship, adjustedCoordinates)) {
+          console.log( 'Placement not valid:', adjustedCoordinates);
           return;
         }
         this.gameboard.receiveShip(ship, adjustedCoordinates);

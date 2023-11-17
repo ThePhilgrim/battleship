@@ -1,3 +1,8 @@
+export const DEBUG = {
+  RECEIVE_SHIP: false,
+  MOUSE_EVENTS: !false,
+}
+
 import { Human, AI } from './Player.js';
 import GameBoard from './Gameboard.js';
 import UserInterface from './UI.js';

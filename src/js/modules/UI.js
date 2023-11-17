@@ -1,3 +1,5 @@
+import { DEBUG } from "./Battleships.js";
+
 export default class UserInterface {
   player1Container = document.querySelector('#player1');
   player2Container = document.querySelector('#player2');
@@ -14,6 +16,7 @@ export default class UserInterface {
   // Solution: Check DPI, calculate size of 1px (real pixels), multiply calc accordingly
   // TODO: Bug – Drag ship to opponent board -> Click rotate button
   onDragStart(event, ship) {
+    if (DEBUG.MOUSE_EVENTS) console.log( 'dragstart', event );
     const square = event.target;
     const index = square.dataset.index;
     const shipElement = square.closest('.ship');
@@ -28,6 +31,7 @@ export default class UserInterface {
     shipElement.style.top = `${shipElementY}px`;
 
     function onMouseMove(event) {
+      if (DEBUG.MOUSE_EVENTS) console.log( 'mousemove', event );
       const deltaX = event.screenX - initialMouseX;
       const deltaY = event.screenY - initialMouseY;
       shipElement.style.left = `${shipElementX + deltaX}px`;
@@ -35,6 +39,7 @@ export default class UserInterface {
     }
 
     function onMouseUp(event) {
+      if (DEBUG.MOUSE_EVENTS) console.log( 'mouseup', event );
       shipElement.classList.remove('being-dragged');
       if (!event.target.closest('table').classList.contains('player')) {
         return;
