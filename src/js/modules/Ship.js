@@ -1,5 +1,5 @@
 export default class Ship {
-  constructor(shipType, size, isVertical = false) {
+  constructor(shipType, size, isVertical = true) {
     this.shipType = shipType;
     this.size = size;
     this.isVertical = isVertical;
