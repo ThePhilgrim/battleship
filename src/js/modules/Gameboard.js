@@ -6,7 +6,7 @@ export default class GameBoard {
 
   printBoard() {
     console.group('Board');
-    this.grid.forEach((row) => {
+    this.grid.forEach((row, index) => {
       const line = row.reduce((previous, current) => {
         let field;
 
@@ -21,7 +21,7 @@ export default class GameBoard {
         return previous + field;
       }, '');
 
-      console.log(line);
+      console.log(index, line);
     });
 
     console.groupEnd();
@@ -58,6 +58,7 @@ export default class GameBoard {
     }
 
     this.ships.push(ship);
+    // this.printBoard();
   }
 
   placementIsValid(ship, { y, x }) {
