@@ -42,7 +42,7 @@ export default class UserInterface {
     function onMouseUp(event) {
       if (DEBUG.MOUSE_EVENTS) console.log( 'mouseup', event );
       shipElement.classList.remove('being-dragged');
-      if (!event.target.closest('table').classList.contains('player')) {
+      if (!event.target.closest('table')?.classList.contains('player')) {
         return;
       }
       ship.isVertical = shipElement.classList.contains('vertical');

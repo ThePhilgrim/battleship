@@ -1,6 +1,6 @@
 export const DEBUG = {
-  RECEIVE_SHIP: false,
-  MOUSE_EVENTS: !false,
+  RECEIVE_SHIP: !false,
+  MOUSE_EVENTS: false,
 }
 
 /* TODO
