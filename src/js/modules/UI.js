@@ -16,6 +16,7 @@ export default class UserInterface {
   // Solution: Check DPI, calculate size of 1px (real pixels), multiply calc accordingly
   // TODO: Bug – Drag ship to opponent board -> Click rotate button
   onDragStart(event, ship) {
+    event.preventDefault(); // TODO: Find out why this helps
     if (DEBUG.MOUSE_EVENTS) console.log( 'dragstart', event );
     const square = event.target;
     const index = square.dataset.index;

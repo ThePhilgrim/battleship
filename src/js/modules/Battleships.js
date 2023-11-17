@@ -3,6 +3,12 @@ export const DEBUG = {
   MOUSE_EVENTS: !false,
 }
 
+/* TODO
+[E] Sometimes, it looks like a group of selected elements is dragged when placing a ship
+    Reproduce: Place smaller ship, then place larger ship
+[?] preventDefault on mousedown (dragstart) fixes above bug
+*/
+
 import { Human, AI } from './Player.js';
 import GameBoard from './Gameboard.js';
 import UserInterface from './UI.js';
