@@ -4,8 +4,8 @@ import UserInterface from './UI.js';
 
 export default class Battleships {
   constructor(
-    player1 = new AI(new GameBoard()),
-    player2 = new AI(new GameBoard()),
+    player1 = new Human(new GameBoard()),
+    player2 = new Human(new GameBoard()),
     userInterface = new UserInterface()
   ) {
     this.player1 = player1;
