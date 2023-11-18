@@ -1,7 +1,8 @@
 export const DEBUG = {
   RECEIVE_SHIP: !false,
   MOUSE_EVENTS: false,
-}
+  PROGRAM_FLOW: !false,
+};
 
 /* TODO
 [E] Sometimes, it looks like a group of selected elements is dragged when placing a ship
@@ -15,8 +16,8 @@ import UserInterface from './UI.js';
 
 export default class Battleships {
   constructor(
-    player1 = new Human(new GameBoard()),
-    player2 = new Human(new GameBoard()),
+    player1 = new AI(new GameBoard()),
+    player2 = new AI(new GameBoard()),
     userInterface = new UserInterface()
   ) {
     this.player1 = player1;
@@ -63,11 +64,14 @@ export default class Battleships {
   }
 
   async startNewGame() {
+    if (DEBUG.PROGRAM_FLOW) console.log('Waiting for ship placement');
     this.userInterface.putShipsInYard(this.player1, this.userInterface.player1Board); // SMELLY
     this.userInterface.putShipsInYard(this.player2, this.userInterface.player2Board); // EUWW
     const playersInitialized = [this.player1.placeShips(), this.player2.placeShips()];
     await Promise.all(playersInitialized);
     let roundNo = 1;
+
+    if (DEBUG.PROGRAM_FLOW) console.log('Starting game');
 
     const resultClassNames = {
       MISS: ['attacked'],
