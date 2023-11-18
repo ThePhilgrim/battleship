@@ -58,28 +58,13 @@ export default class UserInterface {
       removeEventListener('mousemove', onMouseMove);
       removeEventListener('mouseup', onMouseUp);
 
-      ship
-        .hasBeenPlaced(adjustedCoordinates)
-        .then(() => {
-          console.log('then');
-          shipElement.remove();
-        })
-        .catch((e) => {
-          console.log('err');
-        });
-
-      // try {
-      //   console.log('removing.');
-      // } catch (error) {
-      //   // Ignore
-      // }
+      // hasBeenPlaced only resolves on valid placement:
+      ship.hasBeenPlaced(adjustedCoordinates).then(() => shipElement.remove());
     }
 
     addEventListener('mousemove', onMouseMove);
     addEventListener('mouseup', onMouseUp);
   }
-
-  // onSquarePlaceShip(event) {}
 
   onSquareAttack(event) {
     const coordinates = { y: event.target.dataset.y, x: event.target.dataset.x };
@@ -177,9 +162,3 @@ export default class UserInterface {
     return { playerTable, opponentTable, shipYard };
   }
 }
-
-// For each ship -> Create div w. square x ship.size
-// Allow click on any square -> Drag whole div
-// Remember clicked square
-// querySelector(:hover)
-// Place div accordingly w. clicked square on hovered square

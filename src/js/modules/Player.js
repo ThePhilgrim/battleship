@@ -128,14 +128,15 @@ class Human extends Player {
   async placeShip(ship) {
     console.log('placeShip');
     // TODO: Not sure why this needs to be async (webpack wont compile without it)
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve) => {
       ship.hasBeenPlaced = async (adjustedCoordinates) => {
-        console.log('ship.hasBeenPlaced');
         if (!this.gameboard.placementIsValid(ship, adjustedCoordinates)) {
-          reject();
+          // Rejecting inner Promise (Rejecting placement – user needs to try again)
+          return Promise.reject();
         }
         this.gameboard.receiveShip(ship, adjustedCoordinates);
 
+        // Resolving outer Promise (Accepting placement)
         resolve();
       };
     });
