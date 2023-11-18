@@ -1,4 +1,4 @@
-import { DEBUG } from "./Battleships.js";
+import { DEBUG } from './Battleships.js';
 
 export default class UserInterface {
   player1Container = document.querySelector('#player1');
@@ -17,7 +17,7 @@ export default class UserInterface {
   // TODO: Bug – Drag ship to opponent board -> Click rotate button
   onDragStart(event, ship) {
     event.preventDefault(); // TODO: Find out why this helps
-    if (DEBUG.MOUSE_EVENTS) console.log( 'dragstart', event );
+    if (DEBUG.MOUSE_EVENTS) console.log('dragstart', event);
     const square = event.target;
     const index = square.dataset.index;
     const shipElement = square.closest('.ship');
@@ -32,15 +32,15 @@ export default class UserInterface {
     shipElement.style.top = `${shipElementY}px`;
 
     function onMouseMove(event) {
-      if (DEBUG.MOUSE_EVENTS) console.log( 'mousemove', event );
+      if (DEBUG.MOUSE_EVENTS) console.log('mousemove', event);
       const deltaX = event.screenX - initialMouseX;
       const deltaY = event.screenY - initialMouseY;
       shipElement.style.left = `${shipElementX + deltaX}px`;
       shipElement.style.top = `${shipElementY + deltaY}px`;
     }
 
-    function onMouseUp(event) {
-      if (DEBUG.MOUSE_EVENTS) console.log( 'mouseup', event );
+    async function onMouseUp(event) {
+      if (DEBUG.MOUSE_EVENTS) console.log('mouseup', event);
       shipElement.classList.remove('being-dragged');
       if (!event.target.closest('table')?.classList.contains('player')) {
         return;
@@ -57,7 +57,22 @@ export default class UserInterface {
 
       removeEventListener('mousemove', onMouseMove);
       removeEventListener('mouseup', onMouseUp);
-      ship.hasBeenPlaced(adjustedCoordinates);
+
+      ship
+        .hasBeenPlaced(adjustedCoordinates)
+        .then(() => {
+          console.log('then');
+          shipElement.remove();
+        })
+        .catch((e) => {
+          console.log('err');
+        });
+
+      // try {
+      //   console.log('removing.');
+      // } catch (error) {
+      //   // Ignore
+      // }
     }
 
     addEventListener('mousemove', onMouseMove);
